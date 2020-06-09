@@ -9,6 +9,7 @@ import cookieSession from 'cookie-session'
 import connectRedis from 'connect-redis'
 import jsonMessage from './util/json'
 import bindInversifyDependencies from './inversify.config'
+import webpackMiddleware from './webpack-middleware'
 
 // Happens at the top so all imports will have
 // properly-bound containers
@@ -19,7 +20,7 @@ import api from './api'
 import redirect from './api/redirect'
 
 // Logger configuration
-import { cookieSettings, logger, sessionSettings, trustProxy } from './config'
+import { cookieSettings, logger, sessionSettings, trustProxy, DEV_ENV } from './config'
 
 // Services
 const SessionStore = connectRedis(session)
@@ -76,7 +77,11 @@ initDb()
     })
 
     // To serve from build
-    app.use(express.static('dist'))
+    if (DEV_ENV) {
+      app.use(webpackMiddleware)
+    } else {
+      app.use(express.static('dist'))
+    }
     app.use(express.static('public'))
 
     if (trustProxy) {

@@ -12,10 +12,10 @@ services:
       - redis
       - localstack
     ports:
-      - '3000:3000' # Webpack dev server
       - '8080:8080' # Express
     environment:
       - NODE_ENV=development
+      - NODE_OPTIONS=--max_old_space_size=1536 # note this affects nodemon and ts-node
       - PORT=8080
       # postgres://user:pass@hostname:port/database
       - DB_URI=postgres://postgres:postgres@postgres:5432/postgres
