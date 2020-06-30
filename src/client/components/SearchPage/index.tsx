@@ -38,6 +38,14 @@ const useStyles = makeStyles((theme) =>
         marginTop: theme.spacing(11),
       },
     },
+    root: {
+      height: '100vh',
+      overflowY: 'auto',
+      zIndex: 1,
+    },
+    tableWrapper: {
+      minHeight: theme.spacing(40),
+    },
   }),
 )
 
@@ -175,7 +183,7 @@ const SearchPage: FunctionComponent<SearchPageProps> = () => {
   }, [query, sortOrder, rowsPerPage, currentPage])
 
   return (
-    <div style={{ height: '100vh', overflowY: 'auto', zIndex: 1 }}>
+    <div className={classes.root}>
       <BaseLayout headerBackgroundType="darkest">
         <SearchHeader
           onQueryChange={onQueryChange}
@@ -185,7 +193,7 @@ const SearchPage: FunctionComponent<SearchPageProps> = () => {
           onClearQuery={onClearQuery}
         />
         {(queryForResult || '').trim() && (
-          <div style={{ minHeight: '300px' }}>
+          <div className={classes.tableWrapper}>
             <ApplyAppMargins>
               <Typography
                 variant={isMobileView ? 'h5' : 'h3'}
