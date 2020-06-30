@@ -1,8 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Trans } from 'react-i18next'
 import {
-  Button,
-  Hidden,
   Link,
   Typography,
   createStyles,
@@ -10,9 +8,12 @@ import {
   useMediaQuery,
   useTheme,
 } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import Section from '../Section'
-import { ApplyAppMargins, IgnoreAppRightMargins } from '../AppMargins'
-import RotatingLinksGraphic from './RotatingLinksGraphic'
+import landingGraphicMain from '../../assets/landing-page-graphics/landing-main.svg'
+import GoSearchInput from '../widgets/GoSearchInput'
+import searchActions from '../../actions/search'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -29,17 +30,45 @@ const useStyles = makeStyles((theme) =>
     container: {
       display: 'flex',
       flexDirection: 'column',
-      [theme.breakpoints.up('lg')]: {
+      flexWrap: 'wrap',
+      flexShrink: 0,
+      position: 'relative',
+      top: '22px',
+      alignItems: 'center',
+      marginTop: '-22px',
+      maxWidth: theme.spacing(125),
+      [theme.breakpoints.up('md')]: {
+        top: '35px',
+        marginTop: '35px',
+        alignItems: 'start',
+        justifyContent: 'space-around',
         flexDirection: 'row',
+      },
+      [theme.breakpoints.up('lg')]: {
+        marginLeft: theme.spacing(6),
+        marginRight: theme.spacing(6),
+      },
+      [theme.breakpoints.up('xl')]: {
+        marginLeft: theme.spacing(11),
+        marginRight: theme.spacing(11),
       },
     },
     titleTextContainer: {
       display: 'flex',
       flexDirection: 'column',
+      flexShrink: 0,
       maxWidth: '485px',
+      alignItems: 'center',
+      textAlign: 'center',
       marginBottom: theme.spacing(2),
       [theme.breakpoints.up('sm')]: {
         minWidth: '500px',
+      },
+      [theme.breakpoints.up('md')]: {
+        alignItems: 'start',
+        textAlign: 'start',
+        marginTop: theme.spacing(4),
+        marginBottom: 0,
       },
       '@media screen\\0': {
         display: 'inline',
@@ -47,16 +76,21 @@ const useStyles = makeStyles((theme) =>
     },
     titleText: {
       fontWeight: '500',
+      marginBottom: theme.spacing(1.5),
+      [theme.breakpoints.up('md')]: {
+        marginBottom: theme.spacing(3),
+      },
     },
     subtitleText: {
-      marginTop: theme.spacing(2),
       maxWidth: '404px',
     },
-    rotatingLinksGraphic: {
-      marginTop: theme.spacing(4),
-      marginLeft: 'auto',
+    headerGraphic: {
+      position: 'relative',
+      top: '8px',
+      flexShrink: 0,
+      zIndex: 1,
       [theme.breakpoints.up('lg')]: {
-        marginTop: theme.spacing(0),
+        marginRight: '96px',
       },
     },
     fillColor: {
@@ -70,32 +104,31 @@ const useStyles = makeStyles((theme) =>
         minHeight: '200px',
       },
     },
-    learnMoreButton: {
-      height: '44px',
-      width: '150px',
-      // Creates the half in colour-fill, half outside it effect.
-      marginTop: 'calc(-44px / 2)',
-      backgroundColor: theme.palette.secondary.main,
-      '&:hover': {
-        backgroundColor: theme.palette.secondary.main,
-      },
-    },
     signInTextContainer: {
       display: 'flex',
       flexGrow: 1,
       alignItems: 'center',
       justifyContent: 'center',
       [theme.breakpoints.up('md')]: {
+        marginTop: theme.spacing(10.5),
         justifyContent: 'flex-start',
       },
       [theme.breakpoints.up('lg')]: {
-        marginTop: theme.spacing(2),
         alignItems: 'flex-start',
       },
     },
     signInText: {
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
+      width: '100%',
+      textAlign: 'center',
+    },
+    input: {
+      height: '100%',
+    },
+    containerWrapper: {
+      display: 'flex',
+      justifyContent: 'center',
     },
   }),
 )
@@ -105,77 +138,73 @@ const LandingGraphicSliver = () => {
   const topPaddingMultipler = () => {
     const theme = useTheme()
     const isMediumWidth = useMediaQuery(theme.breakpoints.up('md'))
-    const isDesktopWidth = useMediaQuery(theme.breakpoints.up('lg'))
     if (isMediumWidth) {
-      return 1
+      return 50 / 64
     }
-    if (isDesktopWidth) {
-      return 1.75
-    }
-    return 0.5
+    return 0.125
   }
+  const dispatch = useDispatch()
+  const [pendingQuery, setPendingQuery] = useState('')
+  const history = useHistory()
 
   return (
     <div className={classes.pageHeightContainer}>
       <Section
-        backgroundType="dark"
+        backgroundType="white"
         topMultiplier={topPaddingMultipler()}
         bottomMultiplier={0}
       >
-        <div className={classes.container}>
-          <div className={classes.titleTextContainer}>
-            <Typography
-              variant="h1"
-              color="textPrimary"
-              gutterBottom
-              className={classes.titleText}
-            >
-              <Trans>general.appCatchphrase.styled</Trans>
-            </Typography>
-            <Typography
-              className={classes.subtitleText}
-              variant="subtitle1"
-              color="textPrimary"
-            >
-              <Trans>general.appDescription.subtitle</Trans>
-            </Typography>
+        <div className={classes.containerWrapper}>
+          <div className={classes.container}>
+            <div className={classes.titleTextContainer}>
+              <Typography
+                variant="h1"
+                color="textPrimary"
+                gutterBottom
+                className={classes.titleText}
+              >
+                <Trans>general.appCatchphrase.styled</Trans>
+              </Typography>
+              <Typography
+                className={classes.subtitleText}
+                variant="subtitle1"
+                color="textPrimary"
+              >
+                <Trans>general.appDescription.subtitle</Trans>
+              </Typography>
+            </div>
+            <img
+              src={landingGraphicMain}
+              alt="Landing graphic"
+              className={classes.headerGraphic}
+            />
+            <GoSearchInput
+              query={pendingQuery}
+              onQueryChange={setPendingQuery}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  dispatch(
+                    searchActions.redirectToSearchPage(history, pendingQuery),
+                  )
+                  e.preventDefault()
+                }
+              }}
+            />
           </div>
-          <IgnoreAppRightMargins className={classes.rotatingLinksGraphic}>
-            <RotatingLinksGraphic />
-          </IgnoreAppRightMargins>
         </div>
       </Section>
       <div className={classes.fillColor}>
-        <Hidden mdDown>
-          <ApplyAppMargins>
-            <Button
-              className={classes.learnMoreButton}
-              variant="outlined"
-              color="primary"
-              size="large"
-              onClick={() =>
-                document
-                  .getElementById('landing-bottom')
-                  .scrollIntoView({ behavior: 'smooth' })
-              }
-            >
-              Learn more
-            </Button>
-          </ApplyAppMargins>
-        </Hidden>
         <div className={classes.signInTextContainer}>
-          <ApplyAppMargins>
-            <Typography
-              className={classes.signInText}
-              variant="caption"
-              color="secondary"
-            >
-              <Trans>general.appSignInPrompt</Trans>{' '}
-              <Link href="/#/login" color="inherit" underline="always">
-                Sign in
-              </Link>
-            </Typography>
-          </ApplyAppMargins>
+          <Typography
+            className={classes.signInText}
+            variant="caption"
+            color="secondary"
+          >
+            <Trans>general.appSignInPrompt</Trans>{' '}
+            <Link href="/#/login" color="inherit" underline="always">
+              Sign in
+            </Link>
+          </Typography>
         </div>
       </div>
     </div>
