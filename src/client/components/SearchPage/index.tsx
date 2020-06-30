@@ -175,45 +175,49 @@ const SearchPage: FunctionComponent<SearchPageProps> = () => {
   }, [query, sortOrder, rowsPerPage, currentPage])
 
   return (
-    <BaseLayout headerBackgroundType="darkest">
-      <SearchHeader
-        onQueryChange={onQueryChange}
-        query={pendingQuery}
-        onSortOrderChange={onSortOrderChange}
-        sortOrder={sortOrder}
-        onClearQuery={onClearQuery}
-      />
-      {(queryForResult || '').trim() && (
-        <>
-          <ApplyAppMargins>
-            <Typography
-              variant={isMobileView ? 'h5' : 'h3'}
-              className={classes.resultsHeaderText}
-            >
-              {`Showing ${resultsCount} links for “${(
-                queryForResult || ''
-              ).trim()}”`}
-            </Typography>
-          </ApplyAppMargins>
-          <SearchTable
-            searchResults={searchResults}
-            pageCount={pageCount}
-            rowsPerPage={rowsPerPage}
-            currentPage={currentPage}
-            changePageHandler={changePageHandler}
-            changeRowsPerPageHandler={changeRowsPerPageHandler}
-            resultsCount={resultsCount}
-            onClickUrl={onClickUrl}
-          />
-        </>
-      )}
-      <Hidden mdUp>
-        <InfoDrawer
-          selectedUrl={selectedUrl}
-          onClose={() => setSelectedShortUrl(undefined)}
+    <div style={{ height: '100vh', overflowY: 'auto', zIndex: 1 }}>
+      <BaseLayout headerBackgroundType="darkest">
+        <SearchHeader
+          onQueryChange={onQueryChange}
+          query={pendingQuery}
+          onSortOrderChange={onSortOrderChange}
+          sortOrder={sortOrder}
+          onClearQuery={onClearQuery}
         />
-      </Hidden>
-    </BaseLayout>
+        {(queryForResult || '').trim() && (
+          <div style={{ minHeight: '300px' }}>
+            <ApplyAppMargins>
+              <Typography
+                variant={isMobileView ? 'h5' : 'h3'}
+                className={classes.resultsHeaderText}
+              >
+                {`Showing ${resultsCount} links for “${(
+                  queryForResult || ''
+                ).trim()}”`}
+              </Typography>
+            </ApplyAppMargins>
+            {!!resultsCount && (
+              <SearchTable
+                searchResults={searchResults}
+                pageCount={pageCount}
+                rowsPerPage={rowsPerPage}
+                currentPage={currentPage}
+                changePageHandler={changePageHandler}
+                changeRowsPerPageHandler={changeRowsPerPageHandler}
+                resultsCount={resultsCount}
+                onClickUrl={onClickUrl}
+              />
+            )}
+          </div>
+        )}
+        <Hidden mdUp>
+          <InfoDrawer
+            selectedUrl={selectedUrl}
+            onClose={() => setSelectedShortUrl(undefined)}
+          />
+        </Hidden>
+      </BaseLayout>
+    </div>
   )
 }
 

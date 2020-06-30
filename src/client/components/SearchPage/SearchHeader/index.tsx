@@ -65,6 +65,12 @@ const SearchHeader: FunctionComponent<SearchHeaderProps> = ({
             onSortOrderChange={onSortOrderChange}
             sortOrder={sortOrder}
             onClearQuery={onClearQuery}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                ;(e.target as any).blur()
+                e.preventDefault()
+              }
+            }}
           />
         </div>
       </ApplyAppMargins>

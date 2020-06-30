@@ -21,7 +21,8 @@ const useStyles = makeStyles(() =>
           '-ms-flex': '1 1 auto',
           display: 'flex',
           flexDirection: 'column',
-          height: '100vh',
+          minHeight: '100vh',
+          overflow: 'hidden',
         },
       },
       a: {

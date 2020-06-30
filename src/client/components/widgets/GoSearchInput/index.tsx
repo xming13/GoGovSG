@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) =>
     searchTextField: {
       width: '100%',
       height: '100%',
+      '& input::-webkit-search-decoration, & input::-webkit-search-cancel-button, & input::-webkit-search-results-button, & input::-webkit-search-results-decoration': {
+        display: 'none',
+      },
     },
     searchInput: {
       height: '100%',
@@ -110,6 +113,7 @@ const GoSearchInput: FunctionComponent<GoSearchInputProps> = ({
       <div className={classes.root}>
         <TextField
           autoFocus
+          type="search"
           className={classes.searchTextField}
           placeholder="Search all go.gov.sg links"
           value={query}
@@ -155,6 +159,9 @@ const GoSearchInput: FunctionComponent<GoSearchInputProps> = ({
           inputProps={{
             className: classes.searchInputNested,
             onClick: () => setIsSortPanelOpen(false),
+            // type: 'search',
+            // name: 'search',
+            // id: 'search',
           }}
         />
         <Hidden smDown>

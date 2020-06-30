@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) =>
       display: 'flex',
       flexDirection: 'column',
       flexWrap: 'wrap',
-      flexShrink: 0,
       position: 'relative',
       top: '22px',
       alignItems: 'center',
@@ -56,7 +55,6 @@ const useStyles = makeStyles((theme) =>
     titleTextContainer: {
       display: 'flex',
       flexDirection: 'column',
-      flexShrink: 0,
       maxWidth: '485px',
       alignItems: 'center',
       textAlign: 'center',
@@ -87,7 +85,6 @@ const useStyles = makeStyles((theme) =>
     headerGraphic: {
       position: 'relative',
       top: '8px',
-      flexShrink: 0,
       zIndex: 1,
       [theme.breakpoints.up('lg')]: {
         marginRight: '96px',
