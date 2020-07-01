@@ -59,10 +59,10 @@ export class RedirectService implements RedirectServiceInterface {
       }
     }
 
-    // const renderTransitionPage = !this.cookieArrayReducerService.userHasVisitedShortlink(
-    //   pastVisits,
-    //   shortUrl,
-    // )
+    const renderTransitionPage = !this.cookieArrayReducerService.userHasVisitedShortlink(
+      pastVisits,
+      shortUrl,
+    )
     const newVisits = this.cookieArrayReducerService.writeShortlinkToCookie(
       pastVisits,
       shortUrl,
@@ -71,10 +71,9 @@ export class RedirectService implements RedirectServiceInterface {
     return {
       longUrl,
       visitedUrls: newVisits,
-      redirectType: RedirectType.TransitionPage,
-      // redirectType: renderTransitionPage
-      //   ? RedirectType.TransitionPage
-      //   : RedirectType.Direct,
+      redirectType: renderTransitionPage
+        ? RedirectType.TransitionPage
+        : RedirectType.Direct,
     }
   }
 
