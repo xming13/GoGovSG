@@ -73,9 +73,12 @@ const useStyles = makeStyles((theme) =>
       },
     },
     titleText: {
-      fontWeight: '500',
+      fontWeight: '600',
       marginBottom: theme.spacing(1.5),
+      fontSize: '1.75rem',
       [theme.breakpoints.up('md')]: {
+        fontSize: '3.44rem',
+        fontWeight: '500',
         marginBottom: theme.spacing(3),
       },
     },
@@ -132,13 +135,13 @@ const useStyles = makeStyles((theme) =>
 
 const LandingGraphicSliver = () => {
   const classes = useStyles()
+  const theme = useTheme()
+  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'))
   const topPaddingMultipler = () => {
-    const theme = useTheme()
-    const isMediumWidth = useMediaQuery(theme.breakpoints.up('md'))
-    if (isMediumWidth) {
-      return 50 / 64
+    if (isMobileView) {
+      return 0.125
     }
-    return 0.125
+    return 50 / 64
   }
   const dispatch = useDispatch()
   const [pendingQuery, setPendingQuery] = useState('')
@@ -155,7 +158,7 @@ const LandingGraphicSliver = () => {
           <div className={classes.container}>
             <div className={classes.titleTextContainer}>
               <Typography
-                variant="h1"
+                variant={isMobileView ? 'h3' : 'h1'}
                 color="textPrimary"
                 gutterBottom
                 className={classes.titleText}
@@ -164,7 +167,7 @@ const LandingGraphicSliver = () => {
               </Typography>
               <Typography
                 className={classes.subtitleText}
-                variant="subtitle1"
+                variant={isMobileView ? 'body2' : 'subtitle1'}
                 color="textPrimary"
               >
                 <Trans>general.appDescription.subtitle</Trans>
