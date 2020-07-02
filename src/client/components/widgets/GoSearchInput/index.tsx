@@ -102,6 +102,12 @@ const GoSearchInput: FunctionComponent<GoSearchInputProps> = ({
   const classes = useStyles()
   const theme = useTheme()
   const isMobileView = useMediaQuery(theme.breakpoints.down('sm'))
+
+  const sortOrderChangeHandler = (newSortOrder: string) => {
+    onSortOrderChange(newSortOrder as SearchResultsSortOrder)
+    setIsSortPanelOpen(false)
+  }
+
   return (
     <ClickAwayListener
       onClickAway={() => {
@@ -171,9 +177,7 @@ const GoSearchInput: FunctionComponent<GoSearchInputProps> = ({
           >
             <div className={classes.sortPanelContent}>
               <SortPanel
-                onChoose={(newSortOrder) =>
-                  onSortOrderChange(newSortOrder as SearchResultsSortOrder)
-                }
+                onChoose={sortOrderChangeHandler}
                 currentlyChosen={sortOrder || ''}
                 options={sortOptions}
               />
@@ -185,10 +189,7 @@ const GoSearchInput: FunctionComponent<GoSearchInputProps> = ({
             open={isSortPanelOpen}
             onClose={() => setIsSortPanelOpen(false)}
             selectedOrder={sortOrder || ''}
-            onChoose={(newSortOrder) => {
-              onSortOrderChange(newSortOrder as SearchResultsSortOrder)
-              setIsSortPanelOpen(false)
-            }}
+            onChoose={sortOrderChangeHandler}
             options={sortOptions}
           />
         </Hidden>

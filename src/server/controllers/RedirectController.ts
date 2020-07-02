@@ -52,6 +52,7 @@ export class RedirectController implements RedirectControllerInterface {
         shortUrl,
         req.session!.visits,
         req.get('user-agent') || '',
+        req.get('referrer') || '',
       )
 
       req.session!.visits = visitedUrls
