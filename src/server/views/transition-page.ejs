@@ -64,7 +64,7 @@
         var proceedIsLogged = false
 
         // For rotating links on graphic.
-        var rotatingLinks = ['whatsapp', 'sppr']
+        var rotatingLinks = <%- rotatingLinks %>.split(',')
         var options = {
             strings: rotatingLinks,
             typeSpeed: 100,

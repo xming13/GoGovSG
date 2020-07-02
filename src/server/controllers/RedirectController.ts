@@ -1,6 +1,6 @@
 import Express from 'express'
 import { inject, injectable } from 'inversify'
-import { gaTrackingId, logger } from '../config'
+import { gaTrackingId, linksToRotate, logger } from '../config'
 import { NotFoundError } from '../util/error'
 import parseDomain from '../util/domain'
 import { DependencyIds, ERROR_404_PATH } from '../constants'
@@ -74,6 +74,7 @@ export class RedirectController implements RedirectControllerInterface {
 
         res.status(200).render(TRANSITION_PATH, {
           escapedLongUrl: RedirectController.encodeLongUrl(longUrl),
+          rotatingLinks: JSON.stringify(linksToRotate),
           rootDomain,
           gaTrackingId,
           gaEventType: EventCategory.TRANSITION_PAGE,
