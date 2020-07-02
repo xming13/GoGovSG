@@ -38,10 +38,12 @@ const useStyles = makeStyles((theme) =>
       maxWidth: theme.spacing(125),
       [theme.breakpoints.up('md')]: {
         top: '35px',
-        marginTop: '35px',
         alignItems: 'start',
         justifyContent: 'space-around',
         flexDirection: 'row',
+      },
+      [theme.breakpoints.up(1015)]: {
+        marginTop: '35px',
       },
       [theme.breakpoints.up('lg')]: {
         marginLeft: theme.spacing(6),
@@ -62,7 +64,7 @@ const useStyles = makeStyles((theme) =>
       [theme.breakpoints.up('sm')]: {
         minWidth: '500px',
       },
-      [theme.breakpoints.up('md')]: {
+      [theme.breakpoints.up(1015)]: {
         alignItems: 'start',
         textAlign: 'start',
         marginTop: theme.spacing(4),
@@ -137,8 +139,9 @@ const LandingGraphicSliver = () => {
   const classes = useStyles()
   const theme = useTheme()
   const isMobileView = useMediaQuery(theme.breakpoints.down('sm'))
+  const isColumnView = useMediaQuery(theme.breakpoints.down(1015))
   const topPaddingMultipler = () => {
-    if (isMobileView) {
+    if (isColumnView) {
       return 0.125
     }
     return 50 / 64
