@@ -6,8 +6,8 @@ import {
   createStyles,
   makeStyles,
 } from '@material-ui/core'
-import useAppMargins from '../../../AppMargins/appMargins'
-import PaginationActionComponent from '../../../widgets/PaginationActionComponent'
+import useAppMargins from '../../../../AppMargins/appMargins'
+import PaginationActionComponent from '../../../../widgets/PaginationActionComponent'
 
 type SearchTablePaginationProps = {
   pageCount: number

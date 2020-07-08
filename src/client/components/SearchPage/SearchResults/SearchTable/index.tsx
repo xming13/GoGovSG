@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Table, TableBody, createStyles, makeStyles } from '@material-ui/core'
-import { UrlTypePublic } from '../../../reducers/search/types'
+import { UrlTypePublic } from '../../../../reducers/search/types'
 import SearchTableRow from './SearchTableRow'
 import SearchTablePagination from './SearchTablePagination'
 

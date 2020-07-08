@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import {
   Hidden,
-  Typography,
   createStyles,
   makeStyles,
   useMediaQuery,
@@ -13,16 +12,15 @@ import querystring from 'querystring'
 import debounce from 'lodash/debounce'
 import { History } from 'history'
 import BaseLayout from '../BaseLayout'
-import { ApplyAppMargins } from '../AppMargins'
 import { GoGovReduxState } from '../../reducers/types'
 import useAppMargins from '../AppMargins/appMargins'
 import searchActions from '../../actions/search'
 import { SEARCH_PAGE } from '../../util/types'
 import { SearchResultsSortOrder } from '../../../shared/search'
 import SearchHeader from './SearchHeader'
-import SearchTable from './SearchTable'
 import InfoDrawer from './InfoDrawer'
-import emptyStateGraphic from './assets/empty-state-graphic.svg'
+import SearchResults from './SearchResults'
+import EmptyStateGraphic from './EmptySearchGraphic'
 
 type GoSearchParams = {
   query: string
@@ -31,38 +29,12 @@ type GoSearchParams = {
   currentPage: number
 }
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
-    resultsHeaderText: {
-      marginTop: theme.spacing(7.25),
-      [theme.breakpoints.up('md')]: {
-        marginTop: theme.spacing(11),
-      },
-    },
     root: {
       height: '100vh',
       overflowY: 'auto',
       zIndex: 1,
-    },
-    tableWrapper: {
-      minHeight: theme.spacing(40),
-    },
-    emptyStateWrapper: {
-      display: 'flex',
-      flexDirection: 'column',
-      marginTop: theme.spacing(8),
-      alignItems: 'center',
-      [theme.breakpoints.up('md')]: {
-        marginTop: theme.spacing(16),
-      },
-    },
-    emptyStateGraphic: {
-      marginTop: '48px',
-      marginBottom: '76px',
-    },
-    emptyStateBodyText: {
-      marginTop: '8px',
-      textAlign: 'center',
     },
   }),
 )
@@ -212,46 +184,20 @@ const SearchPage: FunctionComponent<SearchPageProps> = () => {
           sortOrder={sortOrder}
           onClearQuery={onClearQuery}
         />
-        {queryToDisplay && (
-          <div className={classes.tableWrapper}>
-            <ApplyAppMargins>
-              <Typography
-                variant={isMobileView ? 'h5' : 'h3'}
-                className={classes.resultsHeaderText}
-              >
-                {`Showing ${resultsCount} links for “${queryToDisplay}”`}
-              </Typography>
-            </ApplyAppMargins>
-            {!!resultsCount && (
-              <SearchTable
-                searchResults={searchResults}
-                pageCount={pageCount}
-                rowsPerPage={rowsPerPage}
-                currentPage={currentPage}
-                changePageHandler={changePageHandler}
-                changeRowsPerPageHandler={changeRowsPerPageHandler}
-                resultsCount={resultsCount}
-                onClickUrl={onClickUrl}
-              />
-            )}
-          </div>
-        )}
-        {!queryToDisplay && (
-          <div className={classes.emptyStateWrapper}>
-            <Typography variant={isMobileView ? 'h5' : 'h3'}>
-              What link are you looking for?
-            </Typography>
-            <Typography variant="body1" className={classes.emptyStateBodyText}>
-              Type in a keyword to get started.
-              <br />
-              E.g. Covid-19
-            </Typography>
-            <img
-              src={emptyStateGraphic}
-              alt="empty search graphic"
-              className={classes.emptyStateGraphic}
-            />
-          </div>
+        {queryToDisplay ? (
+          <SearchResults
+            searchResults={searchResults}
+            pageCount={pageCount}
+            rowsPerPage={rowsPerPage}
+            currentPage={currentPage}
+            changePageHandler={changePageHandler}
+            changeRowsPerPageHandler={changeRowsPerPageHandler}
+            resultsCount={resultsCount}
+            onClickUrl={onClickUrl}
+            query={queryToDisplay}
+          />
+        ) : (
+          <EmptyStateGraphic />
         )}
         <Hidden mdUp>
           <InfoDrawer

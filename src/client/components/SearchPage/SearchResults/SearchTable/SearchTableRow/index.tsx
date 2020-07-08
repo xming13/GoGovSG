@@ -8,8 +8,8 @@ import {
   useMediaQuery,
   useTheme,
 } from '@material-ui/core'
-import { UrlTypePublic } from '../../../../reducers/search/types'
-import useAppMargins from '../../../AppMargins/appMargins'
+import { UrlTypePublic } from '../../../../../reducers/search/types'
+import useAppMargins from '../../../../AppMargins/appMargins'
 
 type SearchTableRowProps = {
   url: UrlTypePublic
