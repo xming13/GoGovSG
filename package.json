@@ -176,7 +176,7 @@
     "**/*.(js|jsx)": [
       "eslint --ext .js,.jsx --no-eslintrc -c .eslintrc.json --fix"
     ],
-    "**/*.(ts)": [
+    "**/*.ts": [
       "eslint --ext .ts --no-eslintrc -c .eslintrc.ts.json --fix"
     ]
   },
