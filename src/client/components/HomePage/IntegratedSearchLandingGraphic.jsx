@@ -11,7 +11,7 @@ import {
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import Section from '../Section'
-import landingGraphicMain from '../../assets/landing-page-graphics/landing-main.svg'
+import landingGraphicMain from '../../assets/landing-page-graphics/integrated-landing-main.svg'
 import GoSearchInput from '../widgets/GoSearchInput'
 import searchActions from '../../actions/search'
 
@@ -135,7 +135,7 @@ const useStyles = makeStyles((theme) =>
   }),
 )
 
-const LandingGraphicSliver = () => {
+const IntegratedSearchLandingGraphic = () => {
   const classes = useStyles()
   const theme = useTheme()
   const isMobileView = useMediaQuery(theme.breakpoints.down('sm'))
@@ -214,4 +214,4 @@ const LandingGraphicSliver = () => {
   )
 }
 
-export default LandingGraphicSliver
+export default IntegratedSearchLandingGraphic

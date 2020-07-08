@@ -23,6 +23,7 @@ import githubIcon from './assets/github-icon.svg'
 import signinIcon from './assets/signin-icon.svg'
 import { SEARCH_PAGE } from '../../util/types'
 import SearchIcon from '../widgets/SearchIcon'
+import { IS_SEARCH_HIDDEN } from '../../util/config'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -109,6 +110,7 @@ const BaseLayoutHeader = ({ backgroundType, isLoggedIn, logout }) => {
       internalLink: true,
       public: true,
       component: <SearchIcon size={24} />,
+      hidden: IS_SEARCH_HIDDEN,
     },
     {
       text: 'Contribute',
@@ -190,7 +192,8 @@ const BaseLayoutHeader = ({ backgroundType, isLoggedIn, logout }) => {
           <span className={classes.rowSpace} />
           {headers.map(
             (header) =>
-              (header.public ? !isLoggedIn : isLoggedIn) && (
+              (header.public ? !isLoggedIn : isLoggedIn) &&
+              !header.hidden && (
                 <Button
                   href={header.internalLink ? `/#${header.link}` : header.link}
                   target={header.internalLink ? '' : '_blank'}

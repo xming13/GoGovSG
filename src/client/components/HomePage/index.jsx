@@ -11,8 +11,10 @@ import TrustedBySliver from './TrustedBySliver'
 import StatisticsSliver from './StatisticsSliver'
 import DescriptionSliver from './FeatureListSliver'
 import Section from '../Section'
-import LandingGraphicSliver from './LandingGraphicSliver'
+import LandingGraphicSilver from './LandingGraphicSilver'
+import IntegratedSearchLandingGraphic from './IntegratedSearchLandingGraphic'
 import BaseLayout from '../BaseLayout'
+import { IS_SEARCH_HIDDEN } from '../../util/config'
 
 const mapDispatchToProps = (dispatch) => ({
   getLinksToRotate: () => dispatch(homeActions.getLinksToRotate()),
@@ -49,7 +51,11 @@ const HomePage = (props) => {
 
   return (
     <BaseLayout headerBackgroundType={isMobileView ? '#f9f9f9' : 'light'}>
-      <LandingGraphicSliver />
+      {IS_SEARCH_HIDDEN ? (
+        <LandingGraphicSilver />
+      ) : (
+        <IntegratedSearchLandingGraphic />
+      )}
       <div id="landing-bottom">
         <Section backgroundType="light">
           <TrustedBySliver />
